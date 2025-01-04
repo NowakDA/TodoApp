@@ -7,6 +7,7 @@ const useFilter = () => {
   const filteredTodos = (todos) => {
     if (filter === 'active') return todos.filter((todo) => todo.currState === 'active');
     if (filter === 'completed') return todos.filter((todo) => todo.currState === 'completed');
+    console.log(todos)
     return todos;
   };
 
