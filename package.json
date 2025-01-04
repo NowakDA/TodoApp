@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint src/**/*.{js,jsx}",
     "lint:fix": "eslint src/**/*.{js,jsx}",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky"
   },
   "husky": {
     "hooks": {
@@ -17,12 +18,8 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.jsx": [
-      "eslint --fix",
+    "**/*.{js,jsx}": [
+      "npm run lint",
       "prettier --write"
     ]
   },
