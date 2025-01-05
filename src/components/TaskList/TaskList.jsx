@@ -1,4 +1,4 @@
-import './Tasklist.scss';
+import './TaskList.scss';
 import Task from '../Task/Task';
 import NewTasksForm from '../NewTaskForm/NewTaskForm';
 import Footer from '../Footer/Footer';
