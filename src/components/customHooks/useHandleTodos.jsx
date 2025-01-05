@@ -19,11 +19,23 @@ const useTodos = () => {
 
   const editTodo = (id, newDescription) => {
     setTodos(
-      todos.map((todo) =>
-        todo.id === id
-          ? { ...todo, description: newDescription, currState: todo.currState === 'active' ? 'editing' : 'active' }
-          : todo
-      )
+      todos.map((todo) => {
+        if (todo.id === id) {
+          let newCurrState;
+          if (todo.currState === 'active' || todo.currState === 'completed') {
+            newCurrState = 'editing';
+          } else {
+            newCurrState = 'active';
+          }
+          return {
+            ...todo,
+            description: newDescription,
+            currState: newCurrState,
+          };
+        } else {
+          return todo;
+        }
+      })
     );
   };
 

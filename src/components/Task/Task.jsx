@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import useTaskTime from '../customHooks/useTaskTime';
@@ -11,7 +11,13 @@ const Task = ({ description, currState, createdAt, id, removeTodo, toggleTodo, e
   return (
     <li className={currState} key={id}>
       <div className="view">
-        <input className="toggle" type="checkbox" name="checkbox" onChange={() => toggleTodo(id)} />
+        <input
+          className="toggle"
+          type="checkbox"
+          name="checkbox"
+          checked={currState === 'completed'}
+          onChange={() => toggleTodo(id)}
+        />
         <div className="todo-info">
           <span className="description">{description}</span>
           <span className="created">created {timeAgo}</span>
