@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import './footer.scss';
+import './Footer.scss';
 
 import TasksFilter from '../TasksFilter/TasksFilter';
 
