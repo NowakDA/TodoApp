@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-//FILTERING TODOS BY FOOTER BUTTONS used in TaskList.jsx
+// FILTERING TODOS BY FOOTER BUTTONS used in TaskList.jsx
 const useFilter = () => {
   const [filter, setFilter] = useState('all');
   const filteredTodos = (todos) => {

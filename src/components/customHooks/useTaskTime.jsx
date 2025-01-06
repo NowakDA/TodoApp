@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 
-//TIME COUNTER SINCE THE TASK WAS CREATED used in Task.jsx
+// TIME COUNTER SINCE THE TASK WAS CREATED used in Task.jsx
 const useTaskTime = (createdAt) => {
   const [timeAgo, setTimeAgo] = useState('');
   useEffect(() => {

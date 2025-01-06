@@ -11,6 +11,7 @@ function Footer({ todos, currFilter, setFilter, clearCompleted }) {
       <span className="todo-count">{activeTodosCount} items left</span>
       <TasksFilter currFilter={currFilter} setFilter={setFilter} />
       <button
+        type="button"
         className="clear-completed"
         onClick={() => {
           clearCompleted();
@@ -26,7 +27,7 @@ Footer.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
       currState: PropTypes.oneOf(['active', 'completed', 'editing']).isRequired,
-    })
+    }),
   ).isRequired,
   currFilter: PropTypes.string.isRequired,
   setFilter: PropTypes.func.isRequired,

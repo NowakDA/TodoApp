@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './NewTaskForm.scss';
 
-function NewTasksForm(props) {
+function NewTasksForm({ createTodo }) {
   const [value, setValue] = useState('');
   return (
     <header className="header">
@@ -11,7 +11,7 @@ function NewTasksForm(props) {
         className="todo-form"
         onSubmit={(e) => {
           e.preventDefault();
-          props.createTodo(value);
+          createTodo(value);
           setValue('');
         }}
       >

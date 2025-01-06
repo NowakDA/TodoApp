@@ -1,13 +1,21 @@
 import { useState } from 'react';
 
-//used in TaskList.jsx
+// used in TaskList.jsx
 
 const useTodos = () => {
   const [todos, setTodos] = useState([]);
 
   const createTodo = (value) => {
     if (value) {
-      setTodos([...todos, { id: Date.now(), description: value, currState: 'active', createdAt: Date.now() }]);
+      setTodos([
+        ...todos,
+        {
+          id: Date.now(),
+          description: value,
+          currState: 'active',
+          createdAt: Date.now(),
+        },
+      ]);
     }
   };
 
@@ -32,18 +40,19 @@ const useTodos = () => {
             description: newDescription,
             currState: newCurrState,
           };
-        } else {
-          return todo;
         }
-      })
+        return todo;
+      }),
     );
   };
 
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
-        todo.id === id ? { ...todo, currState: todo.currState === 'active' ? 'completed' : 'active' } : todo
-      )
+        todo.id === id
+          ? { ...todo, currState: todo.currState === 'active' ? 'completed' : 'active' }
+          : todo,
+      ),
     );
   };
 

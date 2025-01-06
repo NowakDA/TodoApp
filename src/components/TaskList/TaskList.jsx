@@ -26,7 +26,12 @@ function Tasklist() {
             editTodo={editTodo}
           />
         ))}
-        <Footer todos={todos} currFilter={filter} setFilter={setFilter} clearCompleted={clearCompleted} />
+        <Footer
+          todos={todos}
+          currFilter={filter}
+          setFilter={setFilter}
+          clearCompleted={clearCompleted}
+        />
       </ul>
     </section>
   );

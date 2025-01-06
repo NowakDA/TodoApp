@@ -46,22 +46,11 @@
     appearance: none;
     cursor: pointer;
     opacity: 0;
-
-    + .todo-info {
-      /*
-              Firefox requires `#` to be escaped - https://bugzilla.mozilla.org/show_bug.cgi?id=922433
-              IE and Edge requires *everything* to be escaped to render, so we do that instead of just the `#` - https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7157459/
-          */
-
-      background-image: url('../../assets/checkbox.svg');
-      background-repeat: no-repeat;
-      background-position: center left;
-    }
-
-    &:checked + .todo-info {
-      background-image: url('../../assets/checked.svg');
-    }
   }
+}
+
+label:has(input:checked) + .todo-info {
+  background-image: url('../../assets/checked.svg');
 }
 
 .todo-info {
@@ -69,6 +58,9 @@
   align-items: center;
   justify-content: space-between;
   padding: 15px 85px 15px 60px;
+  background-image: url('../../assets/checkbox.svg');
+  background-repeat: no-repeat;
+  background-position: center left;
 }
 
 .created {

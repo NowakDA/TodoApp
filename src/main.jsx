@@ -13,5 +13,5 @@ reactRoot.render(
     <section className="todoapp">
       <Tasklist />
     </section>
-  </StrictMode>
+  </StrictMode>,
 );
