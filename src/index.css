@@ -50,13 +50,15 @@ body {
 }
 
 #root {
+
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+
   text-align: center;
 }
 
 .todoapp {
+  width: 100%;
   background: #fff;
   margin: 130px 0 40px 0;
   position: relative;
@@ -95,8 +97,3 @@ body {
   -moz-text-rendering: optimizeLegibility;
   text-rendering: optimizeLegibility;
 }
-
-/*
-	Hack to remove background from Mobile Safari.
-	Can't use it globally since it destroys checkboxes in Firefox
-*/

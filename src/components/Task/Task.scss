@@ -49,11 +49,12 @@
   }
 }
 
-label:has(input:checked) + .todo-info {
+label:has(input:checked)+.todo-info {
   background-image: url('../../assets/checked.svg');
 }
 
 .todo-info {
+  min-height: 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -71,10 +72,18 @@ label:has(input:checked) + .todo-info {
 .description {
   word-break: break-all;
   display: block;
-  line-height: 1.2;
+  line-height: 1.0;
   transition: color 0.4s;
   font-weight: 400;
   color: #4d4d4d;
+}
+
+.description p {
+  text-align: left;
+  margin: 0;
+  word-break: break-word;
+  
+  
 }
 
 .completed {
@@ -89,10 +98,9 @@ label:has(input:checked) + .todo-info {
   top: 0;
   bottom: -3px;
   width: 30px;
-  height: 40px;
   font-size: 34px;
   color: #cc9a9a;
-  margin: auto 0 11px;
+
   transition: color 0.2s ease-out;
   cursor: pointer;
 
@@ -118,6 +126,10 @@ label:has(input:checked) + .todo-info {
   }
 }
 
+
+
+
+
 .edit {
   position: relative;
   margin: 0;
@@ -134,6 +146,9 @@ label:has(input:checked) + .todo-info {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .todo-list li .toggle {

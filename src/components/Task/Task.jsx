@@ -3,8 +3,19 @@ import PropTypes from 'prop-types';
 
 import useTaskTime from '../customHooks/useTaskTime';
 import './Task.scss';
+import TaskTimer from '../TaskTimer/TaskTimer';
 
-function Task({ description, currState, createdAt, id, removeTodo, toggleTodo, editTodo }) {
+function Task({
+  description,
+  currState,
+  createdAt,
+  id,
+  removeTodo,
+  toggleTodo,
+  editTodo,
+  timeToComplete,
+  handleTimeToCompleteUpdate,
+}) {
   const timeAgo = useTaskTime(createdAt);
   const [editValue, setEditValue] = useState(description);
 
@@ -22,24 +33,28 @@ function Task({ description, currState, createdAt, id, removeTodo, toggleTodo, e
           />
         </label>
         <div className="todo-info">
-          <span className="description">{description}</span>
-          <span className="created">
-            created
-            {timeAgo}
+          <span className="description">
+            <p>{description}</p>
           </span>
+          <TaskTimer
+            seconds={timeToComplete}
+            currState={currState}
+            timeUpdate={(newTime) => handleTimeToCompleteUpdate(id, newTime)}
+          />
+          <span className="created">created : {timeAgo}</span>
+          <button
+            type="button"
+            className="icon icon-edit"
+            aria-label="Edit task"
+            onClick={() => editTodo(id)}
+          />
+          <button
+            type="button"
+            className="icon icon-destroy"
+            aria-label="Remove task"
+            onClick={() => removeTodo(id)}
+          />
         </div>
-        <button
-          type="button"
-          className="icon icon-edit"
-          aria-label="Edit task"
-          onClick={() => editTodo(id)}
-        />
-        <button
-          type="button"
-          className="icon icon-destroy"
-          aria-label="Remove task"
-          onClick={() => removeTodo(id)}
-        />
       </div>
       {currState === 'editing' && (
         <form

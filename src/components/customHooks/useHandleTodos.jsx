@@ -1,11 +1,9 @@
 import { useState } from 'react';
 
-// used in TaskList.jsx
-
 const useTodos = () => {
   const [todos, setTodos] = useState([]);
 
-  const createTodo = (value) => {
+  const createTodo = (value, timeToComplete) => {
     if (value) {
       setTodos([
         ...todos,
@@ -14,12 +12,18 @@ const useTodos = () => {
           description: value,
           currState: 'active',
           createdAt: Date.now(),
+
+          timeToComplete,
         },
       ]);
     }
   };
 
-  //
+  const handleTimeToCompleteUpdate = (id, newTime) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => (todo.id === id ? { ...todo, timeToComplete: newTime } : todo)),
+    );
+  };
 
   const removeTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
@@ -67,6 +71,7 @@ const useTodos = () => {
     editTodo,
     toggleTodo,
     clearCompleted,
+    handleTimeToCompleteUpdate,
   };
 };
 
