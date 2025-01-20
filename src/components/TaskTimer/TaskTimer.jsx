@@ -1,4 +1,4 @@
-import './taskTimer.scss';
+import './TaskTimer.scss';
 
 function TaskTimer({ seconds, id, playTimer, pauseTimer }) {
   const formatTime = (totalSeconds) => {
