@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import useTaskTime from '../customHooks/useTaskTime';
 import './Task.scss';
@@ -14,9 +13,11 @@ function Task({
   toggleTodo,
   editTodo,
   timeToComplete,
-  handleTimeToCompleteUpdate,
+  playTimer,
+  pauseTimer,
 }) {
   const timeAgo = useTaskTime(createdAt);
+
   const [editValue, setEditValue] = useState(description);
 
   return (
@@ -37,9 +38,10 @@ function Task({
             <p>{description}</p>
           </span>
           <TaskTimer
+            id={id}
             seconds={timeToComplete}
-            currState={currState}
-            timeUpdate={(newTime) => handleTimeToCompleteUpdate(id, newTime)}
+            playTimer={playTimer}
+            pauseTimer={pauseTimer}
           />
           <span className="created">created : {timeAgo}</span>
           <button
@@ -77,15 +79,5 @@ function Task({
     </li>
   );
 }
-
-Task.propTypes = {
-  description: PropTypes.string,
-  currState: PropTypes.string.isRequired,
-  createdAt: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
-  removeTodo: PropTypes.func.isRequired,
-  toggleTodo: PropTypes.func.isRequired,
-  editTodo: PropTypes.func.isRequired,
-};
 
 export default Task;

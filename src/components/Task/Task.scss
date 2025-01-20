@@ -147,7 +147,40 @@ label:has(input:checked)+.todo-info {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.time{
+  margin-left: 5px;
+  color: gray;
+  font-size: 13px;
+}
 
+.icon-play {
+  font-size: 15px;
+  width: 30px;
+  min-height: 18px;
+  color: #cc9a9a;
+  margin: auto 0;
+  transition: color 0.2s ease-out;
+  cursor: pointer;
+
+  &:after {
+    content: '▶';
+  }
+
+}
+
+.icon-pause {
+  font-size: 18px;
+  width: 30px;
+  min-height: 18px;
+  color: #cc9a9a;
+  margin: auto 0;
+  transition: color 0.2s ease-out;
+  cursor: pointer;
+
+  &:after {
+    content: '⏸';
+  }
+}
 
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {

@@ -1,37 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const useTodos = () => {
   const [todos, setTodos] = useState([]);
 
   const createTodo = (value, timeToComplete) => {
     if (value) {
-      setTodos([
-        ...todos,
+      setTodos((prevTodos) => [
+        ...prevTodos,
         {
           id: Date.now(),
           description: value,
           currState: 'active',
           createdAt: Date.now(),
-
           timeToComplete,
+          isTimerPlayed: false,
         },
       ]);
     }
   };
 
-  const handleTimeToCompleteUpdate = (id, newTime) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) => (todo.id === id ? { ...todo, timeToComplete: newTime } : todo)),
-    );
-  };
-
   const removeTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
   const editTodo = (id, newDescription) => {
-    setTodos(
-      todos.map((todo) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => {
         if (todo.id === id) {
           let newCurrState;
           if (todo.currState === 'active' || todo.currState === 'completed') {
@@ -51,8 +45,8 @@ const useTodos = () => {
   };
 
   const toggleTodo = (id) => {
-    setTodos(
-      todos.map((todo) =>
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
         todo.id === id
           ? { ...todo, currState: todo.currState === 'active' ? 'completed' : 'active' }
           : todo,
@@ -61,7 +55,45 @@ const useTodos = () => {
   };
 
   const clearCompleted = () => {
-    setTodos(todos.filter((todo) => todo.currState !== 'completed'));
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.currState !== 'completed'));
+  };
+
+  // Timer
+
+  useEffect(() => {
+    const intervals = todos.map((todo) => {
+      if (todo.isTimerPlayed && todo.currState === 'active' && todo.timeToComplete !== 0) {
+        return setInterval(() => {
+          setTodos((prevTodos) =>
+            prevTodos.map((curr) =>
+              curr.id === todo.id
+                ? {
+                    ...curr,
+                    timeToComplete: curr.timeToComplete - 1,
+                  }
+                : curr,
+            ),
+          );
+        }, 1000);
+      }
+      return null;
+    });
+
+    return () => {
+      intervals.forEach((interval) => interval && clearInterval(interval));
+    };
+  }, [todos]);
+
+  const playTimer = (id) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => (todo.id === id ? { ...todo, isTimerPlayed: true } : todo)),
+    );
+  };
+
+  const pauseTimer = (id) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => (todo.id === id ? { ...todo, isTimerPlayed: false } : todo)),
+    );
   };
 
   return {
@@ -71,7 +103,8 @@ const useTodos = () => {
     editTodo,
     toggleTodo,
     clearCompleted,
-    handleTimeToCompleteUpdate,
+    playTimer,
+    pauseTimer,
   };
 };
 

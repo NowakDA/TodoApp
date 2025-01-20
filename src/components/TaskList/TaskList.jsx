@@ -13,7 +13,8 @@ function Tasklist() {
     editTodo,
     toggleTodo,
     clearCompleted,
-    handleTimeToCompleteUpdate,
+    playTimer,
+    pauseTimer,
   } = useTodos();
   const { filter, setFilter, filteredTodos } = useFilter();
 
@@ -34,7 +35,8 @@ function Tasklist() {
             toggleTodo={toggleTodo}
             editTodo={editTodo}
             timeToComplete={elem.timeToComplete}
-            handleTimeToCompleteUpdate={handleTimeToCompleteUpdate}
+            playTimer={playTimer}
+            pauseTimer={pauseTimer}
           />
         ))}
         <Footer
@@ -47,4 +49,5 @@ function Tasklist() {
     </section>
   );
 }
+
 export default Tasklist;
