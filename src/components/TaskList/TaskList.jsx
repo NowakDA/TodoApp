@@ -15,6 +15,7 @@ function Tasklist() {
     clearCompleted,
     playTimer,
     pauseTimer,
+    cancelEdit,
   } = useTodos();
   const { filter, setFilter, filteredTodos } = useFilter();
 
@@ -37,6 +38,7 @@ function Tasklist() {
             timeToComplete={elem.timeToComplete}
             playTimer={playTimer}
             pauseTimer={pauseTimer}
+            cancelEdit={cancelEdit}
           />
         ))}
         <Footer

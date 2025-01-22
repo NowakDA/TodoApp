@@ -44,6 +44,12 @@ const useTodos = () => {
     );
   };
 
+  const cancelEdit = (id) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => (todo.id === id ? { ...todo, currState: 'active' } : todo)),
+    );
+  };
+
   const toggleTodo = (id) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -105,6 +111,7 @@ const useTodos = () => {
     clearCompleted,
     playTimer,
     pauseTimer,
+    cancelEdit,
   };
 };
 

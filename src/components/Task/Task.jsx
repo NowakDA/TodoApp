@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import useTaskTime from '../customHooks/useTaskTime';
 import './Task.scss';
@@ -15,10 +15,39 @@ function Task({
   timeToComplete,
   playTimer,
   pauseTimer,
+  cancelEdit,
 }) {
   const timeAgo = useTaskTime(createdAt);
-
   const [editValue, setEditValue] = useState(description);
+  const editRef = useRef(null);
+
+  useEffect(() => {
+    if (currState === 'editing') {
+      if (editRef.current) {
+        editRef.current.focus();
+      }
+      const handleClick = (event) => {
+        if (editRef.current && !editRef.current.contains(event.target)) {
+          cancelEdit(id);
+          setEditValue(description);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClick);
+
+      return () => {
+        document.removeEventListener('mousedown', handleClick);
+      };
+    }
+    return undefined;
+  }, [currState]);
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      cancelEdit(id);
+      setEditValue(description);
+    }
+  };
 
   return (
     <li className={currState} key={id}>
@@ -48,7 +77,7 @@ function Task({
             type="button"
             className="icon icon-edit"
             aria-label="Edit task"
-            onClick={() => editTodo(id)}
+            onClick={() => editTodo(id, description)}
           />
           <button
             type="button"
@@ -62,10 +91,12 @@ function Task({
         <form
           action="#"
           name="edit"
+          autoComplete="off"
           onSubmit={(e) => {
             e.preventDefault();
             editTodo(id, editValue);
           }}
+          onKeyDown={handleKeyDown}
         >
           <input
             type="text"
@@ -73,6 +104,7 @@ function Task({
             name="edit-todo"
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
+            ref={editRef}
           />
         </form>
       )}
