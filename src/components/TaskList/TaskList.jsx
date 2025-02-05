@@ -6,10 +6,21 @@ import useTodos from '../customHooks/useHandleTodos';
 import useFilter from '../customHooks/useFilter';
 
 function Tasklist() {
-  const { todos, createTodo, removeTodo, editTodo, toggleTodo, clearCompleted } = useTodos();
+  const {
+    todos,
+    createTodo,
+    removeTodo,
+    editTodo,
+    toggleTodo,
+    clearCompleted,
+    playTimer,
+    pauseTimer,
+    cancelEdit,
+  } = useTodos();
   const { filter, setFilter, filteredTodos } = useFilter();
 
   const displayedTodos = filteredTodos(todos);
+
   return (
     <section className="main">
       <NewTasksForm createTodo={createTodo} />
@@ -24,6 +35,10 @@ function Tasklist() {
             removeTodo={removeTodo}
             toggleTodo={toggleTodo}
             editTodo={editTodo}
+            timeToComplete={elem.timeToComplete}
+            playTimer={playTimer}
+            pauseTimer={pauseTimer}
+            cancelEdit={cancelEdit}
           />
         ))}
         <Footer
