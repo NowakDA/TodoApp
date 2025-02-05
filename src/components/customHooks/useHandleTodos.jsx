@@ -1,85 +1,73 @@
-import { useState, useEffect } from 'react';
+import { useReducer, useEffect } from 'react';
 
-const useTodos = () => {
-  const [todos, setTodos] = useState([]);
+const initialState = [];
 
-  const createTodo = (value, timeToComplete) => {
-    if (value) {
-      setTodos((prevTodos) => [
-        ...prevTodos,
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'create':
+      return [
+        ...state,
         {
           id: Date.now(),
-          description: value,
+          description: action.payload.value,
           currState: 'active',
           createdAt: Date.now(),
-          timeToComplete,
+          timeToComplete: action.payload.timeToComplete,
           isTimerPlayed: false,
         },
-      ]);
-    }
-  };
-
-  const removeTodo = (id) => {
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-  };
-
-  const editTodo = (id, newDescription) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) => {
-        if (todo.id === id) {
-          let newCurrState;
-          if (todo.currState === 'active' || todo.currState === 'completed') {
-            newCurrState = 'editing';
-          } else {
-            newCurrState = 'active';
-          }
+      ];
+    case 'remove':
+      return state.filter((todo) => todo.id !== action.payload);
+    case 'edit':
+      return state.map((todo) => {
+        if (todo.id === action.payload.id) {
+          const newCurrState =
+            todo.currState === 'active' || todo.currState === 'completed' ? 'editing' : 'active';
           return {
             ...todo,
-            description: newDescription,
+            description: action.payload.newDescription,
             currState: newCurrState,
           };
         }
         return todo;
-      }),
-    );
-  };
-
-  const cancelEdit = (id) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) => (todo.id === id ? { ...todo, currState: 'active' } : todo)),
-    );
-  };
-
-  const toggleTodo = (id) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id
+      });
+    case 'cancelEdit':
+      return state.map((todo) =>
+        todo.id === action.payload ? { ...todo, currState: 'active' } : todo,
+      );
+    case 'toggle':
+      return state.map((todo) =>
+        todo.id === action.payload
           ? { ...todo, currState: todo.currState === 'active' ? 'completed' : 'active' }
           : todo,
-      ),
-    );
-  };
+      );
+    case 'clearCompleted':
+      return state.filter((todo) => todo.currState !== 'completed');
+    case 'playTimer':
+      return state.map((todo) =>
+        todo.id === action.payload ? { ...todo, isTimerPlayed: true } : todo,
+      );
+    case 'pauseTimer':
+      return state.map((todo) =>
+        todo.id === action.payload ? { ...todo, isTimerPlayed: false } : todo,
+      );
+    case 'decrementTimer':
+      return state.map((todo) =>
+        todo.id === action.payload ? { ...todo, timeToComplete: todo.timeToComplete - 1 } : todo,
+      );
+    default:
+      return state;
+  }
+};
 
-  const clearCompleted = () => {
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.currState !== 'completed'));
-  };
-
-  // Timer
+const useTodos = () => {
+  const [todos, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     const intervals = todos.map((todo) => {
-      if (todo.isTimerPlayed && todo.currState === 'active' && todo.timeToComplete !== 0) {
+      if (todo.isTimerPlayed && todo.currState === 'active' && todo.timeToComplete > 0) {
         return setInterval(() => {
-          setTodos((prevTodos) =>
-            prevTodos.map((curr) =>
-              curr.id === todo.id
-                ? {
-                    ...curr,
-                    timeToComplete: curr.timeToComplete - 1,
-                  }
-                : curr,
-            ),
-          );
+          dispatch({ type: 'decrementTimer', payload: todo.id });
         }, 1000);
       }
       return null;
@@ -90,17 +78,20 @@ const useTodos = () => {
     };
   }, [todos]);
 
-  const playTimer = (id) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) => (todo.id === id ? { ...todo, isTimerPlayed: true } : todo)),
-    );
+  const createTodo = (value, timeToComplete) => {
+    if (value) {
+      dispatch({ type: 'create', payload: { value, timeToComplete } });
+    }
   };
 
-  const pauseTimer = (id) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) => (todo.id === id ? { ...todo, isTimerPlayed: false } : todo)),
-    );
-  };
+  const removeTodo = (id) => dispatch({ type: 'remove', payload: id });
+  const editTodo = (id, newDescription) =>
+    dispatch({ type: 'edit', payload: { id, newDescription } });
+  const toggleTodo = (id) => dispatch({ type: 'toggle', payload: id });
+  const clearCompleted = () => dispatch({ type: 'clearCompleted' });
+  const playTimer = (id) => dispatch({ type: 'playTimer', payload: id });
+  const pauseTimer = (id) => dispatch({ type: 'pauseTimer', payload: id });
+  const cancelEdit = (id) => dispatch({ type: 'cancelEdit', payload: id });
 
   return {
     todos,

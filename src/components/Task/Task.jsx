@@ -20,7 +20,6 @@ function Task({
   const timeAgo = useTaskTime(createdAt);
   const [editValue, setEditValue] = useState(description);
   const editRef = useRef(null);
-
   useEffect(() => {
     if (currState === 'editing') {
       if (editRef.current) {
